@@ -1,8 +1,9 @@
 package com.pandora.groovy.file
 
 /**
- * 一、文件的操作
+ * 一、文本文件的读写操作
  */
+println('\r\n=====================   一、文本文件的读写操作     =========================\r\n')
 def filePath = '../../../../../IGroovy.iml'
 //获取Groovy中file对象
 def file = new File(filePath)
@@ -71,9 +72,11 @@ def copy(String sourcePath, String destationPath) {
                 }
             }
         }
+        return true
     } catch (Exception e) {
         e.printStackTrace()
     }
+    return false
 }
 
 //源文件
@@ -83,4 +86,90 @@ def destationPath = '../../../../../book2.xml'
 
 //拷贝文件
 copy(sourcePath, destationPath)
+
+
+/**
+ * 二、对象的读写操作
+ */
+println('\r\n======================  二、对象的读写操作  =========================\r\n')
+/**
+ * 对象-人
+ */
+class Person implements Serializable {
+    /**
+     * 名字
+     */
+    String name
+
+    /**
+     * 年龄
+     */
+    int age
+
+    Person(String name, int age) {
+        this.name = name
+        this.age = age
+    }
+
+    Person() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+}
+
+//保存对象到文件
+def saveObject(Object object, String path) {
+    try {
+        //首先创建目标文件
+        def destFile = new File(path)
+        if (!destFile.exists()) {
+            destFile.createNewFile()
+        }
+        //写入对象到文件
+        destFile.withObjectOutputStream { out ->
+            out.writeObject(object)
+        }
+        return true
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+    return false
+}
+
+//从文件中读取对象
+def readObject(String path) {
+    def obj = null
+    try {
+        def file = new File(path)
+        if (file == null || !file.exists()) {
+            return null
+        }
+        //从文件中读对象
+        file.withObjectInputStream { input ->
+            obj = input.readObject()
+        }
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+    return obj
+}
+
+
+//把对象写入文件
+def person = new Person('jack', 18)
+def path = '../../../../../person.bin'
+saveObject(person, path)
+
+//读文件对象
+//def resultPerson = (Person) readObject(path)
+//println resultPerson.toString()
+
+
 
