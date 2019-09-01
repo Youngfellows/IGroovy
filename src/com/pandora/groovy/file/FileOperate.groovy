@@ -1,6 +1,6 @@
 package com.pandora.groovy.file
 
-import com.pandora.groovy.bean.Person
+import com.pandora.groovy.bean.People
 
 /**
  * 一、文本文件的读写操作
@@ -133,12 +133,12 @@ def readObject(String path) {
 
 
 //把对象写入文件
-//def person = new Person('jack', 18,'doctor')
+def person = new People('jack', 18,'doctor')
 def path = '../../../../../person.bin'
 //saveObject(person, path)
 
 //读文件对象
-def resultPerson = (Person) readObject(path)
+def resultPerson = (People) readObject(path)
 println resultPerson.toString()
 
 

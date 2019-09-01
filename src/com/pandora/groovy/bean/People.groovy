@@ -3,7 +3,7 @@ package com.pandora.groovy.bean
 /**
  * 定义对象Peson
  */
-class Person implements Serializable{
+class People implements Serializable{
     /**
      * 名字
      */
@@ -19,13 +19,13 @@ class Person implements Serializable{
      */
     String job
 
-    Person(String name, int age, String job) {
+    People(String name, int age, String job) {
         this.name = name
         this.age = age
         this.job = job
     }
 
-    Person() {
+    People() {
 
     }
 

@@ -3,16 +3,16 @@ package com.pandora.groovy.file
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.json.StringEscapeUtils
-import com.pandora.groovy.bean.Person
+import com.pandora.groovy.bean.People
 
 /**
  * 一、Groovy中JSON处理
  */
 //将对象转化为JSON字符串
-def list = [new Person(name: '张山', age: 22, job: '送外卖'),
-            new Person(name: '杨过', age: 24, job: '司机'),
-            new Person(name: '小龙女', age: 24, job: '护士'),
-            new Person(name: '郭靖', age: 18, job: '保洁员')]
+def list = [new People(name: '张山', age: 22, job: '送外卖'),
+            new People(name: '杨过', age: 24, job: '司机'),
+            new People(name: '小龙女', age: 24, job: '护士'),
+            new People(name: '郭靖', age: 18, job: '保洁员')]
 
 //1、将map转化为map
 def jsonStr1 = JsonOutput.toJson(list)
@@ -27,7 +27,7 @@ println prettyJson
 
 //2、将JSON数据转化为object实体对象
 def jsonSlurper = new JsonSlurper()
-List<Person> persions = jsonSlurper.parseText(prettyJson)
+List<People> persions = jsonSlurper.parseText(prettyJson)
 println "${persions.toListString()}"
 
 //遍历列表
