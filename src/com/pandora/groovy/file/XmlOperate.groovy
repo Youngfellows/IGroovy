@@ -1,6 +1,7 @@
 package com.pandora.gtroovy.file
 
 import groovy.util.slurpersupport.GPathResult
+import groovy.xml.MarkupBuilder
 
 //定义xml字符串
 final String xml = '''
@@ -34,6 +35,9 @@ final String xml = '''
   </response>
  '''
 
+/**
+ * 一、解析XML格式数据
+ */
 //开始解析xml数据
 def xmlSlurper = new XmlSlurper()
 //解析出的是response节点
@@ -77,5 +81,111 @@ def title = response.value.books.children().findAll { node ->
     return node.title.text()
 }
 println title
+
+
+/***
+ * 二、生成xml格式数据
+ */
+/**
+ * <langs type='current' count='3' mainstream='true'>
+ *   <language flavor='static' version='1.5'>java</language>
+ *   <language flavor='dynamic' version='1.6.0'>Groovy</language>
+ *   <language flavor='dynamic' version='1.9'>JavaScript</language>
+ * </langs>
+ */
+//保存xml数据
+def sw = new StringWriter()
+//用来生成xml数据的核心类
+def xmlBuilder = new MarkupBuilder(sw)
+
+//1、静态生成xml数据
+//创建根节点langs,指定节点的属性和值。通过伪方法添加节点数据
+xmlBuilder.langs(type: 'current', count: '3', mainstream: 'true') {
+    //第1个language节点,指定节点的属性和值
+    language(flavor: 'static', version: '1.5') {
+        //节点嵌套
+        subject('java')
+        age('15')
+    }
+    //第2个language节点,指定节点的属性和值
+    language(flavor: 'dynamic', version: '1.6.0') {
+        subject('Groovy')
+        age('10')
+    }
+    //第3个language节点,指定节点的属性和值
+    language(flavor: 'dynamic', version: '1.9', 'Gradle')
+    //第4个language节点,指定节点的属性和值
+    language(flavor: 'dynamic', version: '2.0', 'Python')
+}
+
+//打印xml数据
+println sw
+
+
+//2、动态生成xml数据
+//对应于xml中的langs节点
+class Langs {
+    /**
+     * lnags节点属性
+     */
+    String type = 'current'
+
+    /**
+     * 节点属性
+     */
+    int count = 3
+
+    /**
+     * 节点属性
+     */
+    boolean mainstream = true
+
+    /**
+     * languages节点
+     */
+    def languages = [new Language(flavor: 'static', version: '1.6', value: 'java'),
+                     new Language(flavor: 'static', version: '1.7', value: 'C++'),
+                     new Language(flavor: 'dynamic', version: '1.8', value: 'Groovy'),
+                     new Language(flavor: 'dynamic', version: '1.9', value: 'Gradle'),
+                     new Language(flavor: 'dynamic', version: '1.4', value: 'Python')
+    ]
+}
+
+//对应于xml中的language节点
+class Language {
+    /**
+     * 节点属性
+     */
+    String flavor
+
+    /**
+     * 节点属性
+     */
+    String version
+
+    /**
+     * 节点值
+     */
+    String value
+}
+
+//写入xml数据
+def sw2 = new StringWriter()
+//用来生成xml数据的核心类
+def xmlMarkupBuilder = new MarkupBuilder()
+
+//实体对象
+def langs = new Langs()
+//生成langs节点，节点属性
+xmlMarkupBuilder.langs(type: langs.type, count: langs.count, mainstream: langs.mainstream) {
+    //遍历所有的子节点
+    langs.languages.each { lang ->
+        //生成language节点
+        language(flavor: lang.flavor, version: lang.version, lang.value)
+    }
+}
+
+//打印xml数据
+println sw2
 
 
