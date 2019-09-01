@@ -1,5 +1,7 @@
 package com.pandora.groovy.file
 
+import com.pandora.groovy.bean.Person
+
 /**
  * 一、文本文件的读写操作
  */
@@ -92,38 +94,6 @@ copy(sourcePath, destationPath)
  * 二、对象的读写操作
  */
 println('\r\n======================  二、对象的读写操作  =========================\r\n')
-/**
- * 对象-人
- */
-class Person implements Serializable {
-    /**
-     * 名字
-     */
-    String name
-
-    /**
-     * 年龄
-     */
-    int age
-
-    Person(String name, int age) {
-        this.name = name
-        this.age = age
-    }
-
-    Person() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", age='" + age + '\'' +
-                '}';
-    }
-}
-
 //保存对象到文件
 def saveObject(Object object, String path) {
     try {
@@ -163,13 +133,13 @@ def readObject(String path) {
 
 
 //把对象写入文件
-def person = new Person('jack', 18)
+//def person = new Person('jack', 18,'doctor')
 def path = '../../../../../person.bin'
-saveObject(person, path)
+//saveObject(person, path)
 
 //读文件对象
-//def resultPerson = (Person) readObject(path)
-//println resultPerson.toString()
+def resultPerson = (Person) readObject(path)
+println resultPerson.toString()
 
 
 
