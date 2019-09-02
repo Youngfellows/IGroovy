@@ -3,7 +3,7 @@ package com.pandora.groovy.obj
 /**
  * 1、Groovy中默认都是public的
  */
-class Person implements Action,DefaultAction{
+class Person implements Action, DefaultAction {
     /**
      * 名字
      */
@@ -41,5 +41,26 @@ class Person implements Action,DefaultAction{
     @Override
     void walk() {
         println '走路...'
+    }
+
+    /**
+     * 一个方法找不到时调用它代替
+     * @param name
+     * @param args
+     * @return
+     */
+    @Override
+    Object invokeMethod(String name, Object args) {
+        return "the method is ${name}, the params is ${args}"
+    }
+
+    /**
+     * 一个方法找不到时调用它代替
+     * @param name
+     * @param args
+     * @return
+     */
+    def methodMissing(String name, def args) {
+        return "the method ${name} is missing..."
     }
 }
