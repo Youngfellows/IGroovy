@@ -64,4 +64,10 @@ def clourser5 = {
 result = clourser5('groovy')
 println result
 
+def clourse6 = {
+    'hello clourser5...'
+}
+
+result = clourse6.call()
+println result
 
