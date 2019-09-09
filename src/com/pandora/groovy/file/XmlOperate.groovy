@@ -1,4 +1,4 @@
-package com.pandora.gtroovy.file
+package com.pandora.groovy.file
 
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.MarkupBuilder
